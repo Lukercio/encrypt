@@ -29,8 +29,12 @@ import org.bouncycastle.util.encoders.Base64;
 
 
 /**
- * Created by andrei on 8/8/16.
+ * Created by andrei on 8/8/16. -  For Android
+ * Converted to Java by ldlopes on 02/23/2018
+ *
+ * It's not recommended to encrypt data in backend
  */
+
 public class ClientSideEncrypter {
 
     private static final String PREFIX="adyenan";

@@ -13,8 +13,12 @@ import com.adyen.encrypter.exception.EncrypterException;
 
 
 /**
- * Created by andrei on 8/8/16.
+ * Created by andrei on 8/8/16. -  For Android
+ * Converted to Java by ldlopes on 02/23/2018
+ *
+ * It's not recommended to encrypt data in backend
  */
+
 public class Card {
 
     private static final String tag = Card.class.getSimpleName();
@@ -210,7 +214,6 @@ public class Card {
     public static String getEncyptedData(String number, String expiryMonth, String expiryYear, String cardHolderName, String cvc, String publicKey){
         String encryptedData = null;
         //String publicKey = args[5];
-        //publicKey = "10001|AB2FC7E47D81F2D7A93A9192AEA16BCF3914F766A8866F6E95E98D4F5AB65BF14B5758407B2DB160970DB81ABB2C8CBA01D100FFC80BDD6B977ACD28AEC37C501A08A87A3FD74B64A3D964C069FB76350F39942F2EB8EFEB0AC9477EA164A0BEEDC363D293FB71C5188DC6B17B26F86297CED54F0EC183620E921BBEAD2EE9595C826E8B7107699DC50263099374121A9077836A9EB268419B9EF46F784B6F00E474BEED47B5C6590B361E07F7FA0AB88E265AAFC5CC535A738C0FF51FD0266FEF9059FDDBA2A44CA93CACFD4C196A82F446AA381A21F140BFB537BCDB9B2CB98AA8D0D82E4435660BCD8151A8D63CE399EFE7D0A53F57786CAFFA12C028793D";
         //String creditCard = "157523";
 
         try {
