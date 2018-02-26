@@ -105,7 +105,7 @@ public class Card {
      * @return The serialized and encrypted data from the {@link Card}.
      * @throws EncrypterException If the {@link Card} could not be encrypted.
      */
-    public String serialize(String publicKey) throws EncrypterException {
+    private String serialize(String publicKey) throws EncrypterException {
         JSONObject cardJson = new JSONObject();
         String encryptedData = null;
 
@@ -126,7 +126,7 @@ public class Card {
         return encryptedData;
     }
 
-    public static Card createCard(String number, String expiryMonth, String expiryYear, String cardHolderName, String cvc ) {
+    private static Card createCard(String number, String expiryMonth, String expiryYear, String cardHolderName, String cvc ) {
         Builder card = new Builder();
 
         if (number != null && expiryMonth != null && expiryYear != null && cardHolderName != null && cvc != null) {
@@ -210,16 +210,16 @@ public class Card {
         return cardJson.toString();
     }
 
-    // com.adyen.pojo.Card.getEncyptedData
-    public static String getEncyptedData(String number, String expiryMonth, String expiryYear, String cardHolderName, String cvc, String publicKey){
+    /**
+     *   Main class to encrypt data in the project
+     */
+    public static String getEncryptedData(String number, String expiryMonth, String expiryYear, String cardHolderName, String cvc, String publicKey){
         String encryptedData = null;
-        //String publicKey = args[5];
-        //String creditCard = "157523";
+        Card cardToEncript = new Card();
 
         try {
 
-            if (cvc != null ) {
-                Card cardToEncript = new Card();
+            if (number != null && expiryMonth != null && expiryYear != null && cardHolderName != null && cvc != null ) {
 
                 cardToEncript = createCard(number, expiryMonth, expiryYear, cardHolderName, cvc);
 
@@ -229,6 +229,44 @@ public class Card {
                 } else {
 
                     encryptedData = cardToEncript.serialize(publicKey);
+                    return encryptedData;
+                }
+
+            // Encrypt only the cvc data, when receiving all card data, but only cvc not null
+            } else if(number == null && expiryMonth == null && expiryYear == null && cardHolderName == null && cvc != null ) {
+                cardToEncript = createCard(null, null, null, null, cvc);
+                encryptedData = cardToEncript.serialize(publicKey);
+
+                return encryptedData;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    /**
+     *   Encrypt only the cvc data, when receiving only the cvc
+     */
+    public static String getEncryptedData(String cvc, String publicKey){
+        String encryptedData = null;
+        //String creditCard = "test";
+
+        try {
+
+            if (cvc != null ) {
+                Card cardToEncrypt = new Card();
+
+                // Encrypt only the cvc value (for one-click purchases)
+                cardToEncrypt = createCard(null, null, null, null, cvc);
+
+                if (cardToEncrypt == null) {
+                    return "";
+
+                } else {
+
+                    encryptedData = cardToEncrypt.serialize(publicKey);
 
                     return encryptedData;
                 }
@@ -241,9 +279,14 @@ public class Card {
 
     }
 
-    // Classe Main para testes, chamando getEncyptedData passando dados do cartão (ou cvv), mais o valor de senha
+    /**
+     *  Main Class for fast-testing, calling getEncryptedData with all
+     *  card data (or only cvv), and the publicKey value
+     */
     public static void main(String []args) {
-        System.out.println("Texto encriptado: " + getEncyptedData("123", "456", "789", "890", "000", "10001|AB2FC7E47D81F2D7A93A9192AEA16BCF3914F766A8866F6E95E98D4F5AB65BF14B5758407B2DB160970DB81ABB2C8CBA01D100FFC80BDD6B977ACD28AEC37C501A08A87A3FD74B64A3D964C069FB76350F39942F2EB8EFEB0AC9477EA164A0BEEDC363D293FB71C5188DC6B17B26F86297CED54F0EC183620E921BBEAD2EE9595C826E8B7107699DC50263099374121A9077836A9EB268419B9EF46F784B6F00E474BEED47B5C6590B361E07F7FA0AB88E265AAFC5CC535A738C0FF51FD0266FEF9059FDDBA2A44CA93CACFD4C196A82F446AA381A21F140BFB537BCDB9B2CB98AA8D0D82E4435660BCD8151A8D63CE399EFE7D0A53F57786CAFFA12C028793D"));
+        //System.out.println("Test - Encrypted Data: " + getEncryptedData("123", "456", "789", "890", "000", "10001|"));
+        System.out.println("Test - Encrypted Data: " + getEncryptedData( "000", "10001|AB2FC7E47D81F2D7A93A9192AEA16BCF3914F766A8866F6E95E98D4F5AB65BF14B5758407B2DB160970DB81ABB2C8CBA01D100FFC80BDD6B977ACD28AEC37C501A08A87A3FD74B64A3D964C069FB76350F39942F2EB8EFEB0AC9477EA164A0BEEDC363D293FB71C5188DC6B17B26F86297CED54F0EC183620E921BBEAD2EE9595C826E8B7107699DC50263099374121A9077836A9EB268419B9EF46F784B6F00E474BEED47B5C6590B361E07F7FA0AB88E265AAFC5CC535A738C0FF51FD0266FEF9059FDDBA2A44CA93CACFD4C196A82F446AA381A21F140BFB537BCDB9B2CB98AA8D0D82E4435660BCD8151A8D63CE399EFE7D0A53F57786CAFFA12C028793D"));
+
     }
 
     /**
