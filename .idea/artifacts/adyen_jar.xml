@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="adyen:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/adyen_jar</output-path>
+    <root id="archive" name="adyen.jar">
+      <element id="module-output" name="adyen" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20180130/json-20180130.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/bouncycastle/bcprov-jdk15on/1.59/bcprov-jdk15on-1.59.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: junit:junit:3.8.1" />
+      <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15on:1.59" />
+      <element id="library" level="project" name="Maven: org.json:json:20180130" />
+    </root>
+  </artifact>
+</component>
